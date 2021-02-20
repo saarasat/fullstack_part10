@@ -9,15 +9,20 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.body,
     fontFamily: theme.fonts.main,
     fontWeight: theme.fontWeights.normal,
+    flexWrap: "wrap",
+    flex: 1
+  },
+  colorTextPrimary: {
+    color: theme.colors.textPrimary,
   },
   colorTextSecondary: {
     color: theme.colors.textSecondary,
   },
-  colorInverted: {
-    color: theme.colors.backgroundColor,
+  colorTextTertiary: {
+    color: theme.colors.textTertiary,
   },
-  colorPrimary: {
-    color: theme.colors.primary,
+  colorTextInverted: {
+    color: theme.colors.backgroundColor,
   },
   fontSizeSubheading: {
     fontSize: theme.fontSizes.subheading,
@@ -25,16 +30,21 @@ const styles = StyleSheet.create({
   fontWeightBold: {
     fontWeight: theme.fontWeights.bold,
   },
+  padded: {
+    lineHeight: 25,
+  }
 });
 
-const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
+const Text = ({ color, fontSize, fontWeight, padded, style, ...props }) => {
   const textStyle = [
     styles.text,
+    color === 'textPrimary' && styles.colorTextPrimary,
     color === 'textSecondary' && styles.colorTextSecondary,
-    color === 'primary' && styles.colorPrimary,
-    color === 'inverted' && styles.colorInverted,
+    color === 'textTertiary' && styles.colorTextTertiary,
+    color === 'textInverted' && styles.colorTextInverted,
     fontSize === 'subheading' && styles.fontSizeSubheading,
     fontWeight === 'bold' && styles.fontWeightBold,
+    padded && styles.padded,
     style,
   ];
 

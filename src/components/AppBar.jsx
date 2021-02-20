@@ -20,7 +20,6 @@ const AppBar = () => {
   return (
     <View style={styles.container}>
       <AppBarTab text="Repositories" />
-      <AppBarTab text="Another tab" />
     </View>
   );
 };

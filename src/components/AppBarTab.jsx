@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 const AppBarTab = ({ text }) => {
   return (
     <View style={styles.container}>
-      <Text fontSize="subheading" color="inverted">{text}</Text>
+      <Text fontSize="subheading" color="textInverted">{text}</Text>
     </View>
   );
 };
