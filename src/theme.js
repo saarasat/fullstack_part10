@@ -8,6 +8,7 @@ const theme = {
     textPrimary: "#020218", // dark blue
     textSecondary: "#0066ff", // light blue
     textTertiary: "grey", // grey
+    error: "#b51d02"
   },
   fontSizes: {
     body: 12,

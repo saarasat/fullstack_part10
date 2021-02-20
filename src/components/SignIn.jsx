@@ -1,4 +1,5 @@
 import React from 'react';
+import * as yup from 'yup';
 import { Formik } from 'formik';
 import {
   Button,
@@ -14,23 +15,30 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: theme.colors.backgroundSecondary,
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: theme.colors.textTertiary,
-    borderRadius: 2,
-    padding: 10,
-    marginBottom: 10,
-  },
   button: {
     backgroundColor: theme.colors.backgroundSecondary,
+  },
+  buttonContainer: {
+    marginTop: 10,
   }
 })
-
 
 const initialValues = {
   username: '',
   password: '',
 }
+
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .min(4, 'Username must be a minimum of 4 characters')
+    .required('Username is required'),
+  password: yup
+    .string()
+    .min(4, 'Password must be a minimum of 4 characters')
+    .required('Password is required'),
+});
+
 
 const SignIn = () => {
 
@@ -43,6 +51,7 @@ const SignIn = () => {
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
+      validationSchema={validationSchema}
     >
       {({ handleSubmit }) => (
         <>
@@ -57,14 +66,16 @@ const SignIn = () => {
             placeholder="Password"
             style={styles.textInput}
           />
-          <Button
-            onPress={handleSubmit}
-            style={styles.button}
-            title="Sign in"
-            color={theme.colors.textSecondary}
-          >
-            Sign in
-          </Button>
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={handleSubmit}
+              style={styles.button}
+              title="Sign in"
+              color={theme.colors.textSecondary}
+            >
+              Sign in
+            </Button>
+          </View>
         </>
       )}
     </Formik>

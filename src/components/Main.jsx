@@ -9,7 +9,7 @@ import SignIn from './SignIn';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.backgroundColor,
+    backgroundColor: theme.colors.backgroundPrimary,
   },
 });
 
