@@ -6,6 +6,7 @@ import AppBar from './AppBar';
 import RepositoryList from './RepositoryList';
 import theme from '../theme';
 import SignIn from './SignIn';
+import SignOut from './SignOut';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,6 +15,7 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+
   return (
     <View style={styles.container}>
       <AppBar />
@@ -23,6 +25,9 @@ const Main = () => {
         </Route>
         <Route path="/login" exact>
           <SignIn />
+        </Route>
+        <Route path="/logout" exact>
+          <SignOut />
         </Route>
         <Redirect to="/" />
       </Switch>

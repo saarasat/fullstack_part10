@@ -3,7 +3,10 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 
 import theme from '../theme';
+import useAuthorizedUser from '../hooks/useAuthorizedUser';
+
 import AppBarTab from './AppBarTab';
+import Text from './Text';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,11 +20,22 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+
+  const { data, loading, error } =  useAuthorizedUser();
+
+  if (loading) return null;
+  if (error) return <Text>Error, try again later!</Text>
+
+  const authorizedUser = (data && data.authorizedUser) ? data.authorizedUser : null 
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab text="Repositories" link="/"/>
-        <AppBarTab text="Sign in" link="/login"/>
+        {authorizedUser 
+          ? <AppBarTab text="Sign out" link="/logout"/>
+          : <AppBarTab text="Sign in" link="/login"/>
+        }
       </ScrollView>
     </View>
   );
