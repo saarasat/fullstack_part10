@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     color: theme.colors.textTertiary,
   },
   colorTextInverted: {
-    color: theme.colors.backgroundColor,
+    color: theme.colors.backgroundPrimary,
   },
   fontSizeSubheading: {
     fontSize: theme.fontSizes.subheading,

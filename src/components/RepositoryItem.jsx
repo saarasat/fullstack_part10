@@ -8,7 +8,7 @@ import Text from './Text';
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.backgroundSecondary,
   },
   basicInfo: {
     display: "flex",
