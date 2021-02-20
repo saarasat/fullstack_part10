@@ -1,12 +1,13 @@
 import React from 'react';
+import { NativeRouter } from 'react-router-native';
 import Main from './src/components/Main';
-import AppBar from './src/components/AppBar';
 
 const App = () => {
   return (
     <>
-      <AppBar />
-      <Main />
+      <NativeRouter>
+        <Main />
+      </NativeRouter>
     </>
   );
 };

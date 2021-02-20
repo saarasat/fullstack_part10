@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Link } from 'react-router-native';
 
 import Text from './Text';
 
@@ -10,11 +11,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({ text }) => {
+const AppBarTab = ({ text, link }) => {
   return (
-    <View style={styles.container}>
-      <Text fontSize="subheading" color="textInverted">{text}</Text>
-    </View>
+    <Link to={link}>
+      <View style={styles.container}>
+        <Text fontSize="subheading" color="textInverted">{text}</Text>
+      </View>
+    </ Link>
   );
 };
 

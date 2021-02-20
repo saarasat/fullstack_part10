@@ -9,8 +9,6 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.body,
     fontFamily: theme.fonts.main,
     fontWeight: theme.fontWeights.normal,
-    flexWrap: "wrap",
-    flex: 1
   },
   colorTextPrimary: {
     color: theme.colors.textPrimary,
