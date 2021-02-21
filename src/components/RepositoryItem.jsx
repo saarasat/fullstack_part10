@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
 const RepositoryItem = ({ item, url }) => {
   const history = useHistory();
 
+  if (!item) return null;
+
   const {
     id,
     fullName,
@@ -66,7 +68,7 @@ const RepositoryItem = ({ item, url }) => {
 
   
   const onItemPress = (id) => {
-    history.push(`/${id}`);
+    history.push(`/repositories/${id}`);
   };
 
   const onButtonPress = (url) => {

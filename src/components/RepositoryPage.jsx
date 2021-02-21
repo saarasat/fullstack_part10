@@ -12,8 +12,8 @@ const RepositoryPage = () => {
   const singleRepository = useSingleRepository(id);
   const allRepositories = useRepositories();
 
-  if (singleRepository.loading || allRepositories.loading) return <Text>Loading repository...</Text>
-  if (singleRepository.error || allRepositories.error) return <Text>Error in loading the repository</Text>
+  if (singleRepository.loading || allRepositories.loading) return <Text>Loading repository...</Text>;
+  if (singleRepository.error || allRepositories.error) return <Text>Error in loading the repository</Text>;
 
   if (!allRepositories
     || !allRepositories.data
@@ -21,22 +21,25 @@ const RepositoryPage = () => {
     || !singleRepository.data
   ) return null;
 
-  const repositoryNodes = allRepositories.data.repositories.edges.map((edge) => edge.node)
+  const repositoryNodes = allRepositories.data.repositories.edges.map((edge) => edge.node);
 
-  const item = repositoryNodes.find((item) => item.id === id)
+  const item = repositoryNodes.find((item) => item.id === id);
   const url = singleRepository.data.repository ?
     singleRepository.data.repository.url :
-    ""
-  
+    "";
+  const reviews = singleRepository.data.repository ?
+    singleRepository.data.repository.reviews :
+    [];
+
   return (
     <>
       <RepositoryItem
         item={item}
         url={url}
       />
-      <ReviewList reviews={singleRepository.data.repository.reviews} />
+      <ReviewList reviews={reviews} />
     </>
-  ) 
+  );
 };
 
 export default RepositoryPage;

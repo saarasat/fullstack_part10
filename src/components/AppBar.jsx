@@ -24,16 +24,19 @@ const AppBar = () => {
   const { data, loading, error } =  useAuthorizedUser();
 
   if (loading) return null;
-  if (error) return <Text>Error, try again later!</Text>
+  if (error) return <Text>Error, try again later!</Text>;
 
-  const authorizedUser = (data && data.authorizedUser) ? data.authorizedUser : null 
+  const authorizedUser = (data && data.authorizedUser) ? data.authorizedUser : null; 
 
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab text="Repositories" link="/"/>
         {authorizedUser 
-          ? <AppBarTab text="Sign out" link="/logout"/>
+          ? <>
+              <AppBarTab text="Create review" link="/review"/>
+              <AppBarTab text="Sign out" link="/logout"/>
+            </>
           : <AppBarTab text="Sign in" link="/login"/>
         }
       </ScrollView>

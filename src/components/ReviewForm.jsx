@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import FormikTextInput from './FormikTextInput';
-import useSignIn from '../hooks/useSignIn';
+import useCreateReview from '../hooks/useCreateReview';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -26,22 +26,34 @@ const styles = StyleSheet.create({
 });
 
 const initialValues = {
-  username: '',
-  password: '',
+  ownerName: '',
+  repositoryName: '',
+  rating: '',
+  text: '',
 };
 
 const validationSchema = yup.object().shape({
-  username: yup
+  ownerName: yup
     .string()
-    .min(4, 'Username must be a minimum of 4 characters')
-    .required('Username is required'),
-  password: yup
+    .trim()
+    .required('Owner of the repository is required'),
+  repositoryName: yup
     .string()
-    .min(4, 'Password must be a minimum of 4 characters')
-    .required('Password is required'),
+    .trim()
+    .required('Name of the repository is required'),
+  rating: yup
+    .number()
+    .positive()
+    .integer()
+    .max(100)
+    .required('Rating is required'),
+  text: yup
+    .string()
+    .trim()
+    .max(1500)
 });
 
-export const SignInContainer = ({ onSubmit }) => {
+export const ReviewFormContainer = ({ onSubmit }) => {
   return (
     <View style={styles.form}>
       <Formik
@@ -52,23 +64,31 @@ export const SignInContainer = ({ onSubmit }) => {
         {({ handleSubmit }) => (
           <>
             <FormikTextInput
-              name="username"
-              placeholder="Username"
+              name="ownerName"
+              placeholder="Repository owner username"
               style={styles.textInput}
-              testID="username"
             />
             <FormikTextInput
-              secureTextEntry
-              name="password"
-              placeholder="Password"
+              name="repositoryName"
+              placeholder="Name of the repository"
               style={styles.textInput}
-              testID="password"
+            />
+            <FormikTextInput
+              name="rating"
+              placeholder="Rating between 0 and 100"
+              style={styles.textInput}
+            />
+            <FormikTextInput
+              multiline
+              name="text"
+              placeholder="Write a review (optional)"
+              style={styles.textInput}
             />
             <View style={styles.buttonContainer}>
               <Button
                 onPress={handleSubmit}
                 style={styles.button}
-                title="Sign in"
+                title="Add review"
                 color={theme.colors.textSecondary}
                 testID="submitButton"
               />
@@ -80,22 +100,22 @@ export const SignInContainer = ({ onSubmit }) => {
   );
 };
 
-const SignIn = () => {
+const ReviewForm = () => {
   const history = useHistory();
-  const [signIn] = useSignIn();
+  const [createReview, result] = useCreateReview();
 
   const onSubmit = async (values) => {
-    const { username, password } = values;
+    const { ownerName, repositoryName, rating, text } = values;
 
     try {
-      await signIn({ username, password });
-      history.push("/");
+      const repositoryId = await createReview({ ownerName, repositoryName, rating, text });
+      history.push(`/repositories/${repositoryId}`);
     } catch (e) {
       console.log(e);
     }
   };
 
-  return <SignInContainer onSubmit={onSubmit} />;
+  return <ReviewFormContainer onSubmit={onSubmit} />;
 };
 
-export default SignIn;
+export default ReviewForm;

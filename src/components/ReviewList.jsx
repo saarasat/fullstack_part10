@@ -66,14 +66,14 @@ const ReviewItem = ({ review }) => {
         </Text>
       </View>      
     </View>
-  )
+  );
 };
 
 const ReviewList = ({ reviews }) => {
   
-  const reviewNodes = reviews
+  const reviewNodes = (reviews && reviews.edges)
     ? reviews.edges.map((edge) => edge.node)
-    : []
+    : [];
 
   return (
     <View style={styles.container}>

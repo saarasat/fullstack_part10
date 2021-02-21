@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-const { RepositoryListContainer } = require("../components/RepositoryList");
+import { RepositoryListContainer } from "../components/RepositoryList";
 
 describe('RepositoryList', () => {
   describe('RepositoryListContainer', () => {
@@ -64,8 +64,8 @@ describe('RepositoryList', () => {
       testProperties.forEach((property) => {
         const objects = getAllByTestId(property);
         nodes.forEach((node, index) => {
-          expect(objects[index]).toHaveTextContent(node[property])
-        })
+          expect(objects[index]).toHaveTextContent(node[property]);
+        });
       });
     });
   });

@@ -25,11 +25,12 @@ const styles = StyleSheet.create({
 const Tag = ({ color, style, ...props }) => {
 
   const tagStyle = [
+    style,
     styles.tag,
     !color && styles.colorPrimary,
     color === 'primary' && styles.colorPrimary,
     color === 'secondary' && styles.colorSecondary
-  ] 
+  ];
 
   return (
     <View style={tagStyle}>

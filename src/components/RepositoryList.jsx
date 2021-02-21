@@ -22,12 +22,13 @@ export const RepositoryListContainer = ({ repositories }) => {
     <FlatList
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
+      keyExtractor={({ id }) => id}
       renderItem={({ item }) => (
         <RepositoryItem key={item.id} item={item} />  
       )}
     />
   );
-}  
+};
 
 const RepositoryList = () => {
   const { data, loading, error } = useRepositories();

@@ -8,6 +8,7 @@ import theme from '../theme';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
 import RepositoryPage from './RepositoryPage';
+import ReviewForm from './ReviewForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,18 +21,11 @@ const Main = () => {
     <View style={styles.container}>
       <AppBar />
       <Switch>
-        <Route path="/" exact>
-          <RepositoryList />
-        </Route>
-        <Route path="/:id" exact>
-          <RepositoryPage />
-        </Route>
-        <Route path="/login" exact>
-          <SignIn />
-        </Route>
-        <Route path="/logout" exact>
-          <SignOut />
-        </Route>
+        <Route path="/" exact component={RepositoryList} />
+        <Route path="/login" exact component={SignIn} />
+        <Route path="/logout" exact component={SignOut} />
+        <Route path="/review" exact component={ReviewForm} />
+        <Route path="/repositories/:id" exact component={RepositoryPage} />
         <Redirect to="/" />
       </Switch>
     </View>

@@ -16,7 +16,7 @@ const SignOut = () => {
 
   useEffect(() => {
     onSignOut();
-  },[]);
+  }, []);
   
   return <></>;
 };
