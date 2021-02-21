@@ -41,6 +41,46 @@ const validationSchema = yup.object().shape({
     .required('Password is required'),
 });
 
+export const SignInContainer = ({ onSubmit }) => {
+  return (
+    <View style={styles.form}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+      >
+        {({ handleSubmit }) => (
+          <>
+            <FormikTextInput
+              name="username"
+              placeholder="Username"
+              style={styles.textInput}
+              testID="username"
+            />
+            <FormikTextInput
+              secureTextEntry
+              name="password"
+              placeholder="Password"
+              style={styles.textInput}
+              testID="password"
+            />
+            <View style={styles.buttonContainer}>
+              <Button
+                onPress={handleSubmit}
+                style={styles.button}
+                title="Sign in"
+                color={theme.colors.textSecondary}
+                testID="submitButton"
+              >
+                Sign in
+              </Button>
+            </View>
+          </>
+        )}
+      </Formik>
+    </View>
+  )
+};
 
 const SignIn = () => {
   const history = useHistory();
@@ -57,42 +97,7 @@ const SignIn = () => {
     }
   };
 
-  return (
-    <View style={styles.form}>
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-    >
-      {({ handleSubmit }) => (
-        <>
-          <FormikTextInput
-            name="username"
-            placeholder="Username"
-            style={styles.textInput}
-          />
-          <FormikTextInput
-            secureTextEntry
-            name="password"
-            placeholder="Password"
-            style={styles.textInput}
-          />
-          <View style={styles.buttonContainer}>
-            <Button
-              onPress={handleSubmit}
-              style={styles.button}
-              title="Sign in"
-              color={theme.colors.textSecondary}
-            >
-              Sign in
-            </Button>
-          </View>
-        </>
-      )}
-    </Formik>
-
-    </View>
-  )
+  return <SignInContainer onSubmit={onSubmit} />
 };
 
 export default SignIn;

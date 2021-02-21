@@ -48,7 +48,7 @@ describe('RepositoryList', () => {
         ],
       };
 
-      const { debug, getAllByTestId } = render(<RepositoryListContainer repositories={repositories}/>);
+      const { getAllByTestId } = render(<RepositoryListContainer repositories={repositories}/>);
       
       const testProperties = [
         "fullName",

@@ -32,7 +32,7 @@ export const RepositoryListContainer = ({ repositories }) => {
 const RepositoryList = () => {
   const { data, loading, error } = useRepositories();
 
-  if (loading) return <Text>Loading</Text>;
+  if (loading || !data) return <Text>Loading</Text>;
   if (error) return <Text>Error loading repositories</Text>;
 
   return <RepositoryListContainer repositories={data.repositories} />;
