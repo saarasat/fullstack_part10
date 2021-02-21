@@ -54,30 +54,71 @@ const RepositoryItem = ({ item }) => {
   } = item;
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="repository">
       <View style={styles.basicInfo}>
         <Image source={{ uri: ownerAvatarUrl }} style={styles.avatar}/>
         <View style={styles.header}>
-          <Text padded fontWeight="bold">{fullName}</Text>
-          <Text padded color="textTertiary">{description}</Text>
-          <Tag color="secondary">{language}</Tag>
+          <Text
+            padded
+            fontWeight="bold"
+            testID="fullName"
+          >
+            {fullName}
+          </Text>
+          <Text
+            padded
+            color="textTertiary"
+            testID="description"
+          >
+            {description}
+          </Text>
+          <Tag
+            color="secondary"
+            testID="language"
+          >
+            {language}
+          </Tag>
         </View>
       </View>
       <View style={styles.stats}>
         <View style={styles.stat}>
-          <Text padded fontWeight="bold">{stargazersCount}</Text>
+          <Text
+            padded
+            fontWeight="bold"
+            testID="stargazersCount"
+          >
+            {stargazersCount}
+          </Text>
           <Text color="textTertiary">Stars</Text>
         </View>
         <View style={styles.stat}>
-          <Text padded fontWeight="bold">{forksCount}</Text>
+          <Text
+            padded
+            fontWeight="bold"
+            testID="forksCount"
+          >
+            {forksCount}
+          </Text>
           <Text color="textTertiary">Forks</Text>
         </View>
         <View style={styles.stat}>
-          <Text padded fontWeight="bold">{reviewCount}</Text>
+          <Text
+            padded
+            fontWeight="bold"
+            testID="reviewCount"
+          >
+            {reviewCount}
+          </Text>
           <Text color="textTertiary">Reviews</Text>
         </View>
         <View style={styles.stat}>
-          <Text padded fontWeight="bold">{ratingAverage}</Text>
+          <Text
+            padded
+            fontWeight="bold"
+            testID="ratingAverage"
+          >
+            {ratingAverage}
+          </Text>
           <Text color="textTertiary">Ratings</Text>
         </View>
       </View>

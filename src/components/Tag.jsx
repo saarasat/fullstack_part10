@@ -7,7 +7,6 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   tag: {
     borderRadius: 3,
-    display: "inline-block",
     height: 26,
     padding: 5,
     marginTop: 3,

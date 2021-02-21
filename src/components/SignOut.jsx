@@ -18,7 +18,7 @@ const SignOut = () => {
     onSignOut();
   },[]);
   
-  return (<></>);
+  return <></>;
 };
 
 export default SignOut;
