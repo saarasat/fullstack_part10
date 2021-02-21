@@ -1,5 +1,13 @@
 import React from 'react';
-import { Image, View, StyleSheet } from 'react-native';
+import {
+  Button,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native';
+import { useHistory } from 'react-router-native';
+import * as Linking from 'expo-linking';
 import theme from '../theme';
 
 import Tag from './Tag';
@@ -41,8 +49,12 @@ const styles = StyleSheet.create({
 
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, url }) => {
+  const history = useHistory();
+
+  console.log(url)
   const {
+    id,
     fullName,
     description,
     language,
@@ -53,76 +65,93 @@ const RepositoryItem = ({ item }) => {
     ownerAvatarUrl,
   } = item;
 
+  
+  const onItemPress = (id) => {
+    history.push(`/${id}`);
+  };
+
+  const onButtonPress = (url) => {
+    Linking.openURL(url);
+  };
+
   return (
-    <View style={styles.container} testID="repository">
-      <View style={styles.basicInfo}>
-        <Image source={{ uri: ownerAvatarUrl }} style={styles.avatar}/>
-        <View style={styles.header}>
-          <Text
-            padded
-            fontWeight="bold"
-            testID="fullName"
-          >
-            {fullName}
-          </Text>
-          <Text
-            padded
-            color="textTertiary"
-            testID="description"
-          >
-            {description}
-          </Text>
-          <Tag
-            color="secondary"
-            testID="language"
-          >
-            {language}
-          </Tag>
+    <TouchableOpacity onPress={() => onItemPress(id)}>
+      <View style={styles.container} testID="repository">
+        <View style={styles.basicInfo}>
+          <Image source={{ uri: ownerAvatarUrl }} style={styles.avatar}/>
+          <View style={styles.header}>
+            <Text
+              padded
+              fontWeight="bold"
+              testID="fullName"
+            >
+              {fullName}
+            </Text>
+            <Text
+              padded
+              color="textTertiary"
+              testID="description"
+            >
+              {description}
+            </Text>
+            <Tag
+              color="secondary"
+              testID="language"
+            >
+              {language}
+            </Tag>
+          </View>
         </View>
+        <View style={styles.stats}>
+          <View style={styles.stat}>
+            <Text
+              padded
+              fontWeight="bold"
+              testID="stargazersCount"
+            >
+              {stargazersCount}
+            </Text>
+            <Text color="textTertiary">Stars</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text
+              padded
+              fontWeight="bold"
+              testID="forksCount"
+            >
+              {forksCount}
+            </Text>
+            <Text color="textTertiary">Forks</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text
+              padded
+              fontWeight="bold"
+              testID="reviewCount"
+            >
+              {reviewCount}
+            </Text>
+            <Text color="textTertiary">Reviews</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text
+              padded
+              fontWeight="bold"
+              testID="ratingAverage"
+            >
+              {ratingAverage}
+            </Text>
+            <Text color="textTertiary">Ratings</Text>
+          </View>
+        </View>
+        {url &&
+          <Button
+            onPress={() => onButtonPress(url)}
+            title="Open in GitHub"
+          />
+        }
       </View>
-      <View style={styles.stats}>
-        <View style={styles.stat}>
-          <Text
-            padded
-            fontWeight="bold"
-            testID="stargazersCount"
-          >
-            {stargazersCount}
-          </Text>
-          <Text color="textTertiary">Stars</Text>
-        </View>
-        <View style={styles.stat}>
-          <Text
-            padded
-            fontWeight="bold"
-            testID="forksCount"
-          >
-            {forksCount}
-          </Text>
-          <Text color="textTertiary">Forks</Text>
-        </View>
-        <View style={styles.stat}>
-          <Text
-            padded
-            fontWeight="bold"
-            testID="reviewCount"
-          >
-            {reviewCount}
-          </Text>
-          <Text color="textTertiary">Reviews</Text>
-        </View>
-        <View style={styles.stat}>
-          <Text
-            padded
-            fontWeight="bold"
-            testID="ratingAverage"
-          >
-            {ratingAverage}
-          </Text>
-          <Text color="textTertiary">Ratings</Text>
-        </View>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
