@@ -5,6 +5,7 @@ import RepositoryItem from './RepositoryItem';
 import Text from './Text';
 import useSingleRepository from '../hooks/useSingleRepository';
 import useRepositories from '../hooks/useRepositories';
+import ReviewList from './ReviewList';
 
 const RepositoryPage = () => {
   const { id } = useParams();
@@ -28,10 +29,13 @@ const RepositoryPage = () => {
     ""
   
   return (
-    <RepositoryItem
-      item={item}
-      url={url}
-    />
+    <>
+      <RepositoryItem
+        item={item}
+        url={url}
+      />
+      <ReviewList reviews={singleRepository.data.repository.reviews} />
+    </>
   ) 
 };
 

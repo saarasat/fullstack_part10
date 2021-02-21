@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
 const RepositoryItem = ({ item, url }) => {
   const history = useHistory();
 
-  console.log(url)
   const {
     id,
     fullName,

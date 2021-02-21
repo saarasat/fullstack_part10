@@ -23,10 +23,7 @@ const Main = () => {
         <Route path="/" exact>
           <RepositoryList />
         </Route>
-        <Route
-          path="/:id"
-          exact
-        >
+        <Route path="/:id" exact>
           <RepositoryPage />
         </Route>
         <Route path="/login" exact>
