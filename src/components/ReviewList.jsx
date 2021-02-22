@@ -45,7 +45,7 @@ const ReviewItem = ({ review }) => {
     rating,
     createdAt,
     user
-  } = review;
+  } = review.node;
 
   return (
     <View style={styles.item}>
@@ -69,20 +69,20 @@ const ReviewItem = ({ review }) => {
   );
 };
 
-const ReviewList = ({ reviews }) => {
-  
-  const reviewNodes = (reviews && reviews.edges)
-    ? reviews.edges.map((edge) => edge.node)
-    : [];
-
+const ReviewList = ({ reviews, onEndReach }) => {
   return (
     <View style={styles.container}>
       <ItemSeparator />
       <FlatList
-        data={reviewNodes}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}    
+        data={reviews}
         ItemSeparatorComponent={ItemSeparator}
-        renderItem={({ item }) => <ReviewItem review={item} />}
-        keyExtractor={({ id }) => id}
+        renderItem={({ item }) => <ReviewItem
+          key={item.id}
+          review={item} 
+        />}
+        keyExtractor={({ node }) => node.id}
       />
     </View>
   );

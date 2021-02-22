@@ -4,40 +4,36 @@ import { useParams } from 'react-router-native';
 import RepositoryItem from './RepositoryItem';
 import Text from './Text';
 import useSingleRepository from '../hooks/useSingleRepository';
-import useRepositories from '../hooks/useRepositories';
+import useReviews from '../hooks/useReviews';
 import ReviewList from './ReviewList';
 
 const RepositoryPage = () => {
   const { id } = useParams();
-  const singleRepository = useSingleRepository(id);
-  const allRepositories = useRepositories();
+  const { singleRepository } = useSingleRepository(id);
+  const { reviews, fetchMore } = useReviews(id);
+  
+  if (!singleRepository) return null;
 
-  if (singleRepository.loading || allRepositories.loading) return <Text>Loading repository...</Text>;
-  if (singleRepository.error || allRepositories.error) return <Text>Error in loading the repository</Text>;
+  const url = singleRepository.url ? singleRepository.url : "";
+  const reviewEdges = (reviews && reviews.edges)
+  ? reviews.edges
+  : [];
 
-  if (!allRepositories
-    || !allRepositories.data
-    || !singleRepository
-    || !singleRepository.data
-  ) return null;
-
-  const repositoryNodes = allRepositories.data.repositories.edges.map((edge) => edge.node);
-
-  const item = repositoryNodes.find((item) => item.id === id);
-  const url = singleRepository.data.repository ?
-    singleRepository.data.repository.url :
-    "";
-  const reviews = singleRepository.data.repository ?
-    singleRepository.data.repository.reviews :
-    [];
+  const onEndReach = () => {
+    fetchMore();
+    console.log("at the end")
+  };
 
   return (
     <>
       <RepositoryItem
-        item={item}
+        item={singleRepository}
         url={url}
       />
-      <ReviewList reviews={reviews} />
+      <ReviewList
+        reviews={reviewEdges}
+        onEndReach={onEndReach}
+      />
     </>
   );
 };

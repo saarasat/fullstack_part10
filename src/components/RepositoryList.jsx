@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.backgroundSecondary,
     margin: 10,
     paddingLeft: 10,
-
   }
 });
 
@@ -32,10 +31,6 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 
 export class RepositoryListContainer extends React.Component {
-
-  state = {
-    searchWord: ''
-  }
 
   renderHeader = () => {
     const props = this.props;
@@ -75,6 +70,8 @@ export class RepositoryListContainer extends React.Component {
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
         keyExtractor={({ id }) => id}
+        onEndReached={this.props.onEndReach}
+        onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
           <RepositoryItem key={item.id} item={item} />  
         )}
@@ -88,10 +85,16 @@ const RepositoryList = () => {
   const [order, setOrder] = useState('latest');
   const [searchWord, setSearchWord] = useState('');
   const [debouncedSearchWord] = useDebounce(searchWord, 500);
-  const { data, loading, error } = useRepositories(order, debouncedSearchWord);
+  const { allRepositories, fetchMore } = useRepositories({
+    order,
+    debouncedSearchWord
+  });
 
-  if (loading || !data) return <Text>Loading</Text>;
-  if (error) return <Text>Error loading repositories</Text>;
+  if (!allRepositories) return <Text>Loading</Text>;
+  
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
@@ -99,7 +102,8 @@ const RepositoryList = () => {
       searchWord={searchWord}
       setOrder={setOrder}
       setSearchWord={setSearchWord}
-      repositories={data.repositories}
+      onEndReach={onEndReach}
+      repositories={allRepositories}
     />
   );
 };

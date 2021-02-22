@@ -18,20 +18,56 @@ const orderMap = {
   highest: { orderBy: orders.RATING_AVERAGE, orderDirection: direction.DESC },
 };
 
-const useRepositories = (order, searchKeyword) => {
+const useRepositories = ({ order, searchKeyword }) => {
 
   const variables = {
     orderBy: order ? orderMap[order].orderBy : orders.RATING_AVERAGE,
     orderDirection: order ? orderMap[order].orderDirection : orders.DESC,
     searchKeyword,
+    first: 4
   }
 
-  const { data, loading, error } = useQuery(GET_REPOSITORIES, {
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data && data.repositories.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      query: GET_REPOSITORIES,
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        const nextResult = {
+          repositories: {
+            ...fetchMoreResult.repositories,
+            edges: [
+              ...previousResult.repositories.edges,
+              ...fetchMoreResult.repositories.edges,
+            ],
+          },
+        };
+
+        return nextResult;
+      },
+    });
+  };
+
+  const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
     variables
   });
 
-  return { data, loading, error };
+  return {
+    fetchMore: handleFetchMore,
+    allRepositories: data && data.repositories,
+    loading,
+    ...result
+  };
 };
 
 export default useRepositories;
