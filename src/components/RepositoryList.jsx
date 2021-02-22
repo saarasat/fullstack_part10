@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, TextInput } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { useDebounce } from 'use-debounce';
 
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
@@ -17,52 +18,89 @@ const styles = StyleSheet.create({
     padding: 15,
     borderColor: theme.colors.backgroundPrimary,
     fontFamily: theme.fonts.main
+  },
+  searchBar: {
+    height: 50,
+    backgroundColor: theme.colors.backgroundSecondary,
+    margin: 10,
+    paddingLeft: 10,
+
   }
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
 
-export const RepositoryListContainer = ({ repositories }) => {
-  const repositoryNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
-    : [];
+export class RepositoryListContainer extends React.Component {
 
-  return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      keyExtractor={({ id }) => id}
-      renderItem={({ item }) => (
-        <RepositoryItem key={item.id} item={item} />  
-      )}
-    />
-  );
+  state = {
+    searchWord: ''
+  }
+
+  renderHeader = () => {
+    const props = this.props;
+    
+    return (
+      <View>
+        <TextInput
+          style={styles.searchBar}
+          onChangeText={(value) => props.setSearchWord(value)}
+          placeholder="Search repositories"
+        />
+        <RNPickerSelect
+          pickerProps={{
+            style: styles.picker
+          }}
+          value={props.order}
+          onValueChange={(value) => props.setOrder(value)}
+          items={[
+              { label: 'Latest repositories', value: 'latest' },
+              { label: 'Highest rated repositories', value: 'highest' },
+              { label: 'Lowest rated repositories', value: 'lowest' },
+          ]}
+        />
+      </View>
+    );
+  };
+
+  render() {
+    const repositories = this.props.repositories
+    const repositoryNodes = repositories
+      ? repositories.edges.map((edge) => edge.node)
+      : [];
+
+      return (
+      <FlatList
+        ListHeaderComponent={this.renderHeader}
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        keyExtractor={({ id }) => id}
+        renderItem={({ item }) => (
+          <RepositoryItem key={item.id} item={item} />  
+        )}
+      />
+    );
+  
+  }
 };
 
 const RepositoryList = () => {
-  const [order, setOrder] = useState('latest')
-  const { data, loading, error } = useRepositories(order);
+  const [order, setOrder] = useState('latest');
+  const [searchWord, setSearchWord] = useState('');
+  const [debouncedSearchWord] = useDebounce(searchWord, 500);
+  const { data, loading, error } = useRepositories(order, debouncedSearchWord);
 
   if (loading || !data) return <Text>Loading</Text>;
   if (error) return <Text>Error loading repositories</Text>;
 
   return (
-    <>
-      <RNPickerSelect
-        pickerProps={{
-          style: styles.picker
-        }}
-        value={order}
-        onValueChange={(value) => setOrder(value)}
-        items={[
-            { label: 'Latest repositories', value: 'latest' },
-            { label: 'Highest rated repositories', value: 'highest' },
-            { label: 'Lowest rated repositories', value: 'lowest' },
-        ]}
-      />
-      <RepositoryListContainer repositories={data.repositories} />
-    </>
+    <RepositoryListContainer
+      order={order}
+      searchWord={searchWord}
+      setOrder={setOrder}
+      setSearchWord={setSearchWord}
+      repositories={data.repositories}
+    />
   );
 };
 

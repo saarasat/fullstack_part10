@@ -18,13 +18,17 @@ const orderMap = {
   highest: { orderBy: orders.RATING_AVERAGE, orderDirection: direction.DESC },
 };
 
-const useRepositories = (order) => {
+const useRepositories = (order, searchKeyword) => {
+
+  const variables = {
+    orderBy: order ? orderMap[order].orderBy : orders.RATING_AVERAGE,
+    orderDirection: order ? orderMap[order].orderDirection : orders.DESC,
+    searchKeyword,
+  }
+
   const { data, loading, error } = useQuery(GET_REPOSITORIES, {
-    variables: {
-      orderBy: orderMap[order].orderBy,
-      orderDirection: orderMap[order].orderDirection, 
-    },
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache-and-network',
+    variables
   });
 
   return { data, loading, error };
