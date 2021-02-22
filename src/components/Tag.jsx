@@ -7,12 +7,7 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   tag: {
     borderRadius: 3,
-    height: 26,
     padding: 5,
-    marginTop: 3,
-    marginBottom: 5,
-    marginLeft: 0,
-    marginRight: "auto",  
   },
   colorSecondary: {
     backgroundColor: theme.colors.textSecondary,

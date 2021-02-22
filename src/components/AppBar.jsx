@@ -2,32 +2,20 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 
-import theme from '../theme';
-import useAuthorizedUser from '../hooks/useAuthorizedUser';
-
 import AppBarTab from './AppBarTab';
-import Text from './Text';
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.primary,
-    height: 60,
     display: "flex",
     flexDirection: "row",
-    alignContent: "flex-start"
+    alignContent: "flex-start",
   },
 });
 
-const AppBar = () => {
-
-  const { data, loading, error } =  useAuthorizedUser();
-
-  if (loading) return null;
-  if (error) return <Text>Error, try again later!</Text>;
-
-  const authorizedUser = (data && data.authorizedUser) ? data.authorizedUser : null; 
-
+const AppBar = ({ authorizedUser }) => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
@@ -35,6 +23,7 @@ const AppBar = () => {
         {authorizedUser 
           ? <>
               <AppBarTab text="Create review" link="/review"/>
+              <AppBarTab text="My reviews" link="/my-reviews"/>
               <AppBarTab text="Sign out" link="/logout"/>
             </>
           : <>

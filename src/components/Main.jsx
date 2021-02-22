@@ -10,6 +10,8 @@ import SignOut from './SignOut';
 import SignUp from './SignUp';
 import RepositoryPage from './RepositoryPage';
 import ReviewForm from './ReviewForm';
+import MyReviews from './MyReviews';
+import useAuthorizedUser from '../hooks/useAuthorizedUser';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,14 +20,22 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  const { data, loading, error } =  useAuthorizedUser();
+
+  if (loading) return null;
+  if (error) return <Text>Error, try again later!</Text>;
+
+  const authorizedUser = data || undefined; 
+
   return (
     <View style={styles.container}>
-      <AppBar />
+      <AppBar authorizedUser={authorizedUser} />
       <Switch>
         <Route path="/" exact component={RepositoryList} />
         <Route path="/login" exact component={SignIn} />
         <Route path="/logout" exact component={SignOut} />
         <Route path="/signup" exact component={SignUp} />
+        <Route path="/my-reviews" exact component={MyReviews} />
         <Route path="/review" exact component={ReviewForm} />
         <Route path="/repositories/:id" exact component={RepositoryPage} />
         <Redirect to="/" />

@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-native';
 
 import RepositoryItem from './RepositoryItem';
-import Text from './Text';
 import useSingleRepository from '../hooks/useSingleRepository';
 import useReviews from '../hooks/useReviews';
 import ReviewList from './ReviewList';

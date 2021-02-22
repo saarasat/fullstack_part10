@@ -9,7 +9,6 @@ const useReviews = (id) => {
     first: 4
   }
 
-
   const { data, loading, fetchMore, ...result } = useQuery(GET_REVIEWS, {
     fetchPolicy: 'cache-and-network',
     variables

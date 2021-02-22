@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FlatList, View, StyleSheet, TextInput } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
 import { useDebounce } from 'use-debounce';
 
 import RepositoryItem from './RepositoryItem';
@@ -41,18 +40,6 @@ export class RepositoryListContainer extends React.Component {
           style={styles.searchBar}
           onChangeText={(value) => props.setSearchWord(value)}
           placeholder="Search repositories"
-        />
-        <RNPickerSelect
-          pickerProps={{
-            style: styles.picker
-          }}
-          value={props.order}
-          onValueChange={(value) => props.setOrder(value)}
-          items={[
-              { label: 'Latest repositories', value: 'latest' },
-              { label: 'Highest rated repositories', value: 'highest' },
-              { label: 'Lowest rated repositories', value: 'lowest' },
-          ]}
         />
       </View>
     );

@@ -35,6 +35,10 @@ const styles = StyleSheet.create({
     width: 50,
     borderRadius: 3,
   },
+  tagContainer: {
+    display: "flex",
+    flexDirection: "row"
+  },
   stats: {
     display: "flex",
     justifyContent: "space-between",
@@ -95,12 +99,14 @@ const RepositoryItem = ({ item, url }) => {
             >
               {description}
             </Text>
-            <Tag
-              color="secondary"
-              testID="language"
-            >
-              {language}
-            </Tag>
+            <View style={styles.tagContainer}>
+              <Tag
+                color="secondary"
+                testID="language"
+              >
+                {language}
+              </Tag>
+            </View>
           </View>
         </View>
         <View style={styles.stats}>

@@ -97,10 +97,28 @@ export const GET_REVIEWS = gql`
 `;
 
 export const AUTHORIZED_USER = gql`
-  query {
+  query authorizedUser($includeReviews: Boolean = false) {
     authorizedUser {
       id
       username
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            repository {
+              fullName
+            }
+            repositoryId
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;
